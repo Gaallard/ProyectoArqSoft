@@ -1,7 +1,7 @@
 package router
 
 import (
-	"backend/controllers/users"
+	users "backend/controllers/users"
 
 	"github.com/gin-gonic/gin"
 )
