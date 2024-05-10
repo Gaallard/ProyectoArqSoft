@@ -1,12 +1,12 @@
 package users
 
-import "backend/domain/users"
+import "backend/dto/users"
 
 func Login(request users.LoginRequest) users.LoginResponse {
 
 	// Validar contra la base de datos
 
-	return users.LoginResponse{
+	return users.UsersDto{
 		Token: "abcdef123456",
 	}
 }

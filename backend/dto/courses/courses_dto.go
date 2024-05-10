@@ -1,11 +1,10 @@
-package courses
+package dto
 
-type CourseRequest struct {
+type CourseDto struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	IDcategory  int    `json:"id_category"`
 }
 
-type CourseResponse struct {
-	Message string `json:"message"`
-}
+type CoursesDto []CourseDto

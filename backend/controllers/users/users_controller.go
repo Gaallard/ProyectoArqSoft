@@ -1,7 +1,6 @@
 package users
 
 import (
-	usersDomain "backend/domain/users"
 	usersService "backend/services/users"
 	"net/http"
 
@@ -9,7 +8,7 @@ import (
 )
 
 func Login(context *gin.Context) {
-	var loginRequest usersDomain.LoginRequest
+	var loginRequest usersDomain.UserDto
 	context.BindJSON(&loginRequest)
 	response := usersService.Login(loginRequest)
 	context.JSON(http.StatusOK, response)
