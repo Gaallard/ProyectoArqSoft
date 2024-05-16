@@ -1,0 +1,55 @@
+package users
+
+import (
+	dto "backend/dto/users"
+	"backend/models"
+
+	e "backend/errors"
+
+	"github.com/jinzhu/gorm"
+	log "github.com/sirupsen/logrus"
+)
+
+var Db *gorm.DB
+
+func RegisterUser(user models.User) (models.User, e.ApiError) {
+	userExists := Db.Where("username = ?", user.Username).First(&user)
+	if userExists.Error == nil {
+		log.Error("El usuario ya existe")
+		return user, e.NewBadRequestApiError("El usuario ya existe")
+	}
+
+	result := Db.Create(&user)
+	log.Info("Usuario creado con exito")
+	if result.Error != nil {
+		log.Error("Error al crear el usuario")
+		log.Error(result.Error)
+		return user, e.NewBadRequestApiError("Error al crear usuario")
+	}
+
+	return user, nil
+}
+
+func GetUser(request dto.UserDto) (models.User, e.ApiError) {
+	var userFound models.User
+	result := Db.Where("username = ?", request.Username).First(&userFound)
+	if result.Error != nil {
+		log.Error("Error al buscar el usuario")
+		log.Error(result.Error)
+		return userFound, e.NewBadRequestApiError("Error al buscar usuario")
+	}
+
+	return userFound, nil
+}
+
+func UpdateUser(user models.User) (models.User, e.ApiError) {
+
+	result := Db.Model(&user).Updates(models.User{Username: user.Username}).Where("Id = ?", user.Id_user)
+	if result.Error != nil {
+		log.Error("Error al actualizar el usuario")
+		log.Error(result.Error)
+		return user, e.NewBadRequestApiError("Error al actualizar usuario")
+	}
+
+	return user, nil
+}

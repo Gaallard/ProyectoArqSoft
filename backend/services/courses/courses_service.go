@@ -8,7 +8,6 @@ import (
 )
 
 func CreateCourse(request dto.CourseDto) (dto.CourseDto, e.ApiError) {
-	//validar con la base de datos
 	var course model.Course
 
 	course.Name = request.Name
