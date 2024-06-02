@@ -42,6 +42,18 @@ func GetUser(request dto.UserDto) (models.User, e.ApiError) {
 	return userFound, nil
 }
 
+func GetUserById(idUser int) (models.User, e.ApiError) {
+	var userFound models.User
+	result := Db.Where("id_user = ?", idUser).First(&userFound)
+	if result.Error != nil {
+		log.Error("Error al buscar el usuario")
+		log.Error(result.Error)
+		return userFound, e.NewBadRequestApiError("Error al buscar usuario")
+	}
+
+	return userFound, nil
+}
+
 func UpdateUser(user models.User) (models.User, e.ApiError) {
 
 	result := Db.Model(&user).Updates(models.User{Username: user.Username}).Where("Id = ?", user.Id_user)

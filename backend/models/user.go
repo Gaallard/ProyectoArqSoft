@@ -4,6 +4,7 @@ type User struct {
 	Id_user  int    `gorm:"primaryKey"`
 	Username string `gorm:"type:varchar(100);not null"`
 	Password string `gorm:"type:varchar(256);not null"`
+	Role     int    `gorm:"type:int;not null"`
 }
 
 type Users []User
