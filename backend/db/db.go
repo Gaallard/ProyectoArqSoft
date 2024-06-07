@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/clients/courses"
+	"backend/clients/inscriptions"
 	"backend/clients/users"
 	"backend/models"
 
@@ -35,12 +36,14 @@ func init() {
 	// We need to add all CLients that we build
 	users.Db = db
 	courses.Db = db
+	inscriptions.Db = db
 }
 
 func StartDbEngine() {
 	// We need to migrate all classes model.
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Course{})
+	db.AutoMigrate(&models.Inscription{})
 
 	log.Info("Finishing Migration Database Tables")
 }

@@ -50,24 +50,11 @@ func Login(request dto.UserDto) (token.TokenDto, e.ApiError) {
 		tokenString, _ := token.SignedString(jwtKey)
 		tokenDto.Token = tokenString
 		tokenDto.Id_user = user.Id_user
+		tokenDto.Role = user.Role
 
 		return tokenDto, nil
 	} else {
 		return tokenDto, e.NewBadRequestApiError("contrasenia incorrecta")
 	}
-}
 
-func UpdateUser(request dto.UserDto) (dto.UserDto, e.ApiError) {
-	var user model.User
-
-	user.Id_user = request.ID
-	user.Username = request.Username
-	user.Password = request.Password
-
-	user, err := client.UpdateUser(user)
-	if err != nil {
-		return request, e.NewBadRequestApiError("Error al actualizar usuario")
-	}
-
-	return request, nil
 }

@@ -29,14 +29,3 @@ func Login(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, response)
 }
-
-func UpdateUser(context *gin.Context) {
-	var userRequest dtoUsers.UserDto
-	context.BindJSON(&userRequest)
-	response, err := users.UpdateUser(userRequest)
-	if err != nil {
-		context.JSON(err.Status(), err)
-		return
-	}
-	context.JSON(http.StatusOK, response)
-}

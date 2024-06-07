@@ -51,3 +51,45 @@ func DeleteCourse(request dto.CourseDto) e.ApiError {
 
 	return nil
 }
+
+func GetCoursesByUser(idUser int) ([]dto.CourseDto, e.ApiError) {
+	var courses []model.Course
+
+	courses, err := client.GetCoursesByUser(idUser)
+	if err != nil {
+		return nil, e.NewBadRequestApiError("Error al buscar cursos")
+	}
+
+	var coursesDto []dto.CourseDto
+	for _, course := range courses {
+		coursesDto = append(coursesDto, dto.CourseDto{
+			ID:          course.Id_course,
+			Name:        course.Name,
+			Description: course.Description,
+			IDcategory:  course.Id_category,
+		})
+	}
+
+	return coursesDto, nil
+}
+
+func GetCourses() ([]dto.CourseDto, e.ApiError) {
+	var courses []model.Course
+
+	courses, err := client.GetCourses()
+	if err != nil {
+		return nil, e.NewBadRequestApiError("Error al buscar cursos")
+	}
+
+	var coursesDto []dto.CourseDto
+	for _, course := range courses {
+		coursesDto = append(coursesDto, dto.CourseDto{
+			ID:          course.Id_course,
+			Name:        course.Name,
+			Description: course.Description,
+			IDcategory:  course.Id_category,
+		})
+	}
+
+	return coursesDto, nil
+}

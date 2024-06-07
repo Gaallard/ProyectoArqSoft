@@ -4,6 +4,7 @@ import (
 	dtoCourses "backend/dto/courses"
 	service "backend/services/courses"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,4 +40,23 @@ func DeleteCourse(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, "Curso eliminado")
+}
+
+func GetCoursesByUser(context *gin.Context) {
+	idUser, _ := strconv.Atoi(context.Param("idUser"))
+	response, err := service.GetCoursesByUser(idUser)
+	if err != nil {
+		context.JSON(err.Status(), err)
+		return
+	}
+	context.JSON(http.StatusOK, response)
+}
+
+func GetCourses(context *gin.Context) {
+	response, err := service.GetCourses()
+	if err != nil {
+		context.JSON(err.Status(), err)
+		return
+	}
+	context.JSON(http.StatusOK, response)
 }

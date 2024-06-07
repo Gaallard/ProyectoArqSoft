@@ -44,3 +44,25 @@ func DeleteCourse(course models.Course) e.ApiError {
 
 	return nil
 }
+
+func GetCoursesByUser(idUser int) ([]models.Course, e.ApiError) {
+	var courses []models.Course
+	result := Db.Table("courses").Select("courses.*").Joins("JOIN inscriptions ON courses.id_course = inscriptions.course_id").Where("inscriptions.user_id = ?", idUser).Find(&courses)
+	if result.Error != nil {
+		log.Error("Error al buscar los cursos")
+		log.Error(result.Error)
+		return courses, e.NewBadRequestApiError("Error al buscar cursos")
+	}
+	return courses, nil
+}
+
+func GetCourses() ([]models.Course, e.ApiError) {
+	var courses []models.Course
+	result := Db.Table("courses").Select("courses.*").Find(&courses)
+	if result.Error != nil {
+		log.Error("Error al buscar los cursos")
+		log.Error(result.Error)
+		return courses, e.NewBadRequestApiError("Error al buscar cursos")
+	}
+	return courses, nil
+}

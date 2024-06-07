@@ -53,15 +53,3 @@ func GetUserById(idUser int) (models.User, e.ApiError) {
 
 	return userFound, nil
 }
-
-func UpdateUser(user models.User) (models.User, e.ApiError) {
-
-	result := Db.Model(&user).Updates(models.User{Username: user.Username}).Where("Id = ?", user.Id_user)
-	if result.Error != nil {
-		log.Error("Error al actualizar el usuario")
-		log.Error(result.Error)
-		return user, e.NewBadRequestApiError("Error al actualizar usuario")
-	}
-
-	return user, nil
-}
