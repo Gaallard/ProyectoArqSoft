@@ -39,7 +39,6 @@ func Login(request dto.UserDto) (token.TokenDto, e.ApiError) {
 	if err != nil {
 		return tokenDto, e.NewBadRequestApiError("Usuario no encontrado")
 	}
-
 	var pswMd5 = md5.Sum([]byte(request.Password))
 	pswMd5String := hex.EncodeToString(pswMd5[:])
 
@@ -51,7 +50,6 @@ func Login(request dto.UserDto) (token.TokenDto, e.ApiError) {
 		tokenDto.Token = tokenString
 		tokenDto.Id_user = user.Id_user
 		tokenDto.Role = user.Role
-
 		return tokenDto, nil
 	} else {
 		return tokenDto, e.NewBadRequestApiError("contrasenia incorrecta")

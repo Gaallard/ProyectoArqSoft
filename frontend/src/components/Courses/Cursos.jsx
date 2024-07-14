@@ -7,7 +7,7 @@ const Cursos = () => {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState('');
   const [cursos, setCursos] = useState([]);
-  const [cursosFiltrados, setCursosFiltrados] = useState(cursos); 
+  const [cursosFiltrados, setCursosFiltrados] = useState([]);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -39,9 +39,8 @@ const Cursos = () => {
       console.error("Error durante la carga de cursos:", error);
       alert('Error durante la carga de cursos');
     }
-
   };
-  
+
   const inscripcion = async (curso) => {
     try {
       const token = sessionStorage.getItem('token');
@@ -56,35 +55,33 @@ const Cursos = () => {
       });
       if (response.status === 201) {
         Swal.fire('Inscripción exitosa', 'Bienvenido al curso', 'success');
-      }else if(response.status === 400){
-        Swal.fire('Warning', 'Ya estas inscripto al curso', 'error');
-      }else{
+      } else {
         Swal.fire('Error', 'No se pudo inscribir al curso', 'error');
       }
-      // Resto del código para manejar la respuesta de la solicitud...
     } catch (error) {
       console.error("Error durante la inscripción:", error);
       alert('Error durante la inscripción');
     }
   };
-  
+
   const manejarCambio = (e) => {
-    const {value} = e.target.value;
+    const value = e.target.value.toLowerCase();
     setBusqueda(value);
-    const nuevosCursos = cursos.filter((curso) =>
-      curso.name.toLowerCase().includes(value.toLowerCase())
-    );
+    const nuevosCursos = cursos.filter((curso) => {
+      return curso.name && curso.name.toLowerCase().includes(value);
+    });
     setCursosFiltrados(nuevosCursos);
   };
-  
+
   return (
     <div className="container">
       <h1>Cursos de Programación</h1>
       <input
-        type="text" className='busqueda'
+        type="text"
+        className='busqueda'
         placeholder="Buscar curso..."
-        onChange = {manejarCambio}
-        value = {busqueda}
+        onChange={manejarCambio}
+        value={busqueda}
       />
       <ul className="grid">
         {cursosFiltrados.map((curso) => (

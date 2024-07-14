@@ -31,15 +31,17 @@ func RegisterUser(user models.User) (models.User, e.ApiError) {
 }
 
 func GetUser(request dto.UserDto) (models.User, e.ApiError) {
-	var userFound models.User
-	result := Db.Where("username = ?", request.Username).First(&userFound)
+	var user models.User
+
+	result := Db.Where("username = ?", request.Username).First(&user)
+	log.Println("result", result)
 	if result.Error != nil {
 		log.Error("Error al buscar el usuario")
 		log.Error(result.Error)
-		return userFound, e.NewBadRequestApiError("Error al buscar usuario")
+		return user, e.NewBadRequestApiError("Error al buscar usuario")
 	}
 
-	return userFound, nil
+	return user, nil
 }
 
 func GetUserById(idUser int) (models.User, e.ApiError) {
