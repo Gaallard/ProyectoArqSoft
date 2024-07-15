@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cursos.css';
 import Swal from 'sweetalert2';
+import { FaUserAlt } from 'react-icons/fa';
+import { RiAdminFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const Cursos = () => {
   const navigate = useNavigate();
@@ -27,14 +30,14 @@ const Cursos = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-  
+
       if (!response.ok) {
         throw new Error('Error en la carga de cursos');
       }
-  
+
       const data = await response.json();
       setCursos(data); // Asignar los cursos obtenidos al estado cursos
-      setCursosFiltrados(data);
+      setCursosFiltrados(data); // Mostrar todos los cursos al inicio
     } catch (error) {
       console.error("Error durante la carga de cursos:", error);
       alert('Error durante la carga de cursos');
@@ -76,6 +79,14 @@ const Cursos = () => {
   return (
     <div className="container">
       <h1>Cursos de Programación</h1>
+      <Link to='/MyCourses'>
+        <button type="button" className="boton-arriba-derecha">
+          <FaUserAlt className="icon" />
+        </button>
+      </Link>
+      <button type="button2" className="boton-arriba-derecha2">
+        <RiAdminFill className="icon" />
+      </button>
       <input
         type="text"
         className='busqueda'

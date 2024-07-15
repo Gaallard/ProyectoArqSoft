@@ -2,9 +2,9 @@ package courses
 
 import (
 	dtoCourses "backend/dto/courses"
+	"backend/middleware"
 	service "backend/services/courses"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,7 +43,7 @@ func DeleteCourse(context *gin.Context) {
 }
 
 func GetCoursesByUser(context *gin.Context) {
-	idUser, _ := strconv.Atoi(context.Param("idUser"))
+	idUser, _ := middleware.GetUserIdByToken(context)
 	response, err := service.GetCoursesByUser(idUser)
 	if err != nil {
 		context.JSON(err.Status(), err)
