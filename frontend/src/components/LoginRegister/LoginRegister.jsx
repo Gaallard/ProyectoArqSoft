@@ -26,24 +26,30 @@ const LoginRegister = () => {
         username,
         password
       });
+  
       if (response.status === 200) {
-        sessionStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('role', response.data.role);
+        const { idUser, role, token } = response.data;
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('role', role);
+  
         swal.fire("Login exitoso", "Bienvenido", "success").then(() => {
-          window.location.href = "/courses";
+          if (role === 1) { // Asumiendo que role = 1 es admin
+            window.location.href = "/AdminControl";
+          } else {
+            window.location.href = "/courses";
+          }
         });
-
+  
+      } else {
+        swal.fire("Error", "Usuario o contraseña incorrectos", "error");
       }
-      else{
-        swal.fire("Error", "Usuario o contraseña incorrectos", "error")
-      }
-      console.log(response)
     } catch (error) {
       console.error("Error during login:", error);
-      alert('Error during login');
+      swal.fire('Error durante el login', error.message, 'error');
     }
   };
-
+  
+  
   const handleRegister = async (e) => {
     e.preventDefault();
     try {

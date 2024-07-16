@@ -12,7 +12,6 @@ func CreateCourse(request dto.CourseDto) (dto.CourseDto, e.ApiError) {
 
 	course.Name = request.Name
 	course.Description = request.Description
-	course.Id_category = request.IDcategory
 
 	course, err := client.CreateCourse(course)
 	if err != nil {
@@ -30,7 +29,6 @@ func UpdateCourse(request dto.CourseDto) (dto.CourseDto, e.ApiError) {
 	course.Id_course = request.ID
 	course.Name = request.Name
 	course.Description = request.Description
-	course.Id_category = request.IDcategory
 
 	course, err := client.UpdateCourse(course)
 	if err != nil {
@@ -40,11 +38,8 @@ func UpdateCourse(request dto.CourseDto) (dto.CourseDto, e.ApiError) {
 	return request, nil
 }
 
-func DeleteCourse(request dto.CourseDto) e.ApiError {
-	var course model.Course
-
-	course.Id_course = request.ID
-	err := client.DeleteCourse(course)
+func DeleteCourse(idCourse int) e.ApiError {
+	err := client.DeleteCourse(idCourse)
 	if err != nil {
 		return e.NewBadRequestApiError("Error al eliminar curso")
 	}
@@ -66,7 +61,6 @@ func GetCoursesByUser(idUser int) ([]dto.CourseDto, e.ApiError) {
 			ID:          course.Id_course,
 			Name:        course.Name,
 			Description: course.Description,
-			IDcategory:  course.Id_category,
 		})
 	}
 
@@ -87,7 +81,6 @@ func GetCourses() ([]dto.CourseDto, e.ApiError) {
 			ID:          course.Id_course,
 			Name:        course.Name,
 			Description: course.Description,
-			IDcategory:  course.Id_category,
 		})
 	}
 

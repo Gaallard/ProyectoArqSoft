@@ -24,7 +24,7 @@ func CreateCourse(course models.Course) (models.Course, e.ApiError) {
 }
 
 func UpdateCourse(course models.Course) (models.Course, e.ApiError) {
-	result := Db.Model(&course).Updates(models.Course{Name: course.Name, Description: course.Description, Id_category: course.Id_category}).Where("Id_course = ?", course.Id_course)
+	result := Db.Model(&course).Where("id_course = ?", course.Id_course).Updates(models.Course{Name: course.Name, Description: course.Description})
 	if result.Error != nil {
 		log.Error("Error al actualizar el curso")
 		log.Error(result.Error)
@@ -34,12 +34,25 @@ func UpdateCourse(course models.Course) (models.Course, e.ApiError) {
 	return course, nil
 }
 
-func DeleteCourse(course models.Course) e.ApiError {
-	result := Db.Delete(&course).Where("Id_course = ?", course.Id_course)
-	if result.Error != nil {
-		log.Error("Error al eliminar el curso")
-		log.Error(result.Error)
-		return e.NewBadRequestApiError("Error al eliminar curso")
+func DeleteCourse(idCurso int) error {
+	err := Db.Where("id_course = ?", idCurso).Delete(&models.Course{}).Error
+	if err != nil {
+		log.Error("Error al eliminar el curso: ", err)
+		return err
+	}
+
+	var inscriptions []models.Inscription
+	err = Db.Where("course_id = ?", idCurso).Find(&inscriptions).Error
+	if err != nil {
+		log.Error("Error al buscar las inscripciones del curso: ", err)
+		return err
+	}
+	for _, inscription := range inscriptions {
+		err = Db.Delete(&inscription).Error
+		if err != nil {
+			log.Error("Error al eliminar la inscripción: ", err)
+			return err
+		}
 	}
 
 	return nil

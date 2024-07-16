@@ -26,7 +26,7 @@ func MapUrls(engine *gin.Engine) {
 		{
 			admin.POST("/courses/create", courses.CreateCourse)
 			admin.PUT("/courses/update", courses.UpdateCourse)
-			admin.DELETE("/courses/delete", courses.DeleteCourse)
+			admin.DELETE("/courses/delete/:idCourse", courses.DeleteCourse)
 		}
 	}
 }
