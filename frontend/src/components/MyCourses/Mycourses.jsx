@@ -23,7 +23,7 @@ const MyCourses = () => {
   const cargarCursosInscritos = async () => {
     try {
       const token = sessionStorage.getItem('token'); // Suponiendo que el objeto usuario tiene un atributo id que representa el ID del usuario
-      const url = `http://localhost:8080/courses`;
+      const url = `http://localhost:8080/courses/${token}`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -55,15 +55,19 @@ const MyCourses = () => {
         </button>
       </Link>
       <ul className="grid">
-        {cursosInscritos.map((curso) => (
-          <li key={curso.id} className="card">
-            <h2>{curso.name}</h2>
-            <p>{curso.description}</p>
-          </li>
-        ))}
+        {cursosInscritos != null ? (
+          cursosInscritos.map((curso) => (
+            <li key={curso.id} className="card">
+              <h2>{curso.name}</h2>
+              <p>{curso.description}</p>
+            </li>
+          ))
+        ) : (
+          <p>No estás inscrito en ningún curso</p>
+        )}
       </ul>
     </div>
-  );
+  ); 
 };
 
 export default MyCourses;
