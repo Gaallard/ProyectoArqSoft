@@ -15,7 +15,7 @@ func CreateCourse(request dto.CourseDto) (dto.CourseDto, e.ApiError) {
 
 	course, err := client.CreateCourse(course)
 	if err != nil {
-		return request, e.NewBadRequestApiError("Error al crear curso")
+		return request, err
 	}
 
 	request.ID = course.Id_course
@@ -66,6 +66,25 @@ func GetCoursesByUser(idUser int) ([]dto.CourseDto, e.ApiError) {
 
 	return coursesDto, nil
 }
+
+
+func GetCourseById(idCourse int) (dto.CourseDto, e.ApiError) {
+	var course model.Course
+
+	course, err := client.GetCourseById(idCourse)
+	if err != nil {
+		return dto.CourseDto{}, e.NewBadRequestApiError("Error al buscar cursos")
+	}
+
+	var courseDto dto.CourseDto
+	courseDto.ID=  course.Id_course
+	courseDto.Name= course.Name
+	courseDto.Description= course.Description
+
+
+	return courseDto, nil
+}
+
 
 func GetCourses() ([]dto.CourseDto, e.ApiError) {
 	var courses []model.Course

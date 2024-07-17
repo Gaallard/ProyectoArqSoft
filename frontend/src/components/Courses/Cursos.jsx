@@ -15,7 +15,7 @@ const Cursos = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (!token) {
-      navigate('/login');
+      navigate('/users');
     } else {
       cargarCursos(); // Cargar cursos si el usuario está autenticado
     }
@@ -84,9 +84,15 @@ const Cursos = () => {
           <FaUserAlt className="icon" />
         </button>
       </Link>
-      <button type="button2" className="boton-arriba-derecha2">
-        <RiAdminFill className="icon" />
-      </button>
+
+      {// if sessionstorage role==1 then show admin button
+        sessionStorage.getItem('role') === '1' ? (<Link to='/AdminControl'>
+          <button type="button" className="boton-arriba-derecha2">
+            <RiAdminFill className="icon" />
+          </button>
+        </Link>) : null}
+
+
       <input
         type="text"
         className='busqueda'
@@ -96,13 +102,15 @@ const Cursos = () => {
       />
       <ul className="grid">
         {cursosFiltrados.map((curso) => (
-          <li key={curso.id} className="card">
-            <h2>{curso.name}</h2>
-            <p>{curso.description}</p>
-            <button onClick={() => inscripcion(curso)}>
-              Inscribirse
-            </button>
-          </li>
+            <li key={curso.id} className="card">
+              <Link to={`/course/${curso.id}`}>
+                <h2>{curso.name}</h2>
+              </Link>
+              <p>{curso.description}</p>
+              <button onClick={() => inscripcion(curso)}>
+                Inscribirse
+              </button>
+            </li>
         ))}
       </ul>
     </div>

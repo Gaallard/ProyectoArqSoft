@@ -4,6 +4,7 @@ import (
 	courses "backend/controllers/courses"
 	inscriptions "backend/controllers/inscriptions"
 	users "backend/controllers/users"
+	comments "backend/controllers/comments"
 	"backend/middleware"
 	"time"
 
@@ -21,11 +22,16 @@ func MapUrls(engine *gin.Engine) {
 		authorized.POST("/inscriptions/:idCourse", inscriptions.UserInscription)
 		authorized.GET("/courses/:idUser", courses.GetCoursesByUser)
 		authorized.GET("/courses", courses.GetCourses)
+		authorized.GET("/course/:idCourse", courses.GetCourseById)
+
+		authorized.GET("/comments/:idCourse", comments.GetCommentsByCourse)
+		authorized.POST("/comments", comments.CreateComment)
+		authorized.DELETE("/comments/:idComment", comments.DeleteComment)
 		admin := authorized.Group("")
 		admin.Use(middleware.AuthMiddlewareAdmin())
 		{
-			admin.POST("/courses/create", courses.CreateCourse)
-			admin.PUT("/courses/update", courses.UpdateCourse)
+			admin.POST("/courses", courses.CreateCourse)
+			admin.PUT("/courses", courses.UpdateCourse)
 			admin.DELETE("/courses/delete/:idCourse", courses.DeleteCourse)
 		}
 	}

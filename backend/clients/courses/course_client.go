@@ -13,13 +13,12 @@ var Db *gorm.DB
 
 func CreateCourse(course models.Course) (models.Course, e.ApiError) {
 	result := Db.Create(&course)
-	log.Info("Curso creado con exito")
 	if result.Error != nil {
 		log.Error("Error al crear el curso")
 		log.Error(result.Error)
 		return course, e.NewBadRequestApiError("Error al crear curso")
 	}
-
+	log.Info("Curso creado con exito")
 	return course, nil
 }
 
@@ -78,4 +77,15 @@ func GetCourses() ([]models.Course, e.ApiError) {
 		return courses, e.NewBadRequestApiError("Error al buscar cursos")
 	}
 	return courses, nil
+}
+
+func GetCourseById(idCourse int) (models.Course, e.ApiError) {
+    var course models.Course
+    result := Db.Table("courses").Select("courses.*").Where("id_course = ?", idCourse).Find(&course)
+    if result.Error != nil {
+        log.Error("Error al buscar el curso")
+        log.Error(result.Error)
+        return course, e.NewBadRequestApiError("Error al buscar curso")
+    }
+    return course, nil
 }

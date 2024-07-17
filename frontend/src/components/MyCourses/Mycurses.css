@@ -10,13 +10,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #fff;
   }
-  
+
   /* Estilo para el título principal */
   h1 {
     color: #fff;
     margin-bottom: 20px;
   }
-  
+
   /* Estilo para la grilla de cursos */
   .courses-grid {
     display: flex;
@@ -25,7 +25,7 @@
     gap: 20px;
     padding: 0;
   }
-  
+
   /* Estilo para cada curso */
   .course-card {
     background-color: rgba(255, 255, 255, 0.9);
@@ -38,17 +38,17 @@
     box-sizing: border-box;
     color: #333;
   }
-  
+
   .course-card:hover {
     transform: scale(1.05);
   }
-  
+
   /* Estilo para el título del curso */
   .course-card h2 {
     color: #5e2a84;
     margin-bottom: 10px;
   }
-  
+
   /* Estilo para la descripción del curso */
   .course-card p {
     color: #666;
@@ -56,4 +56,3 @@
     font-size: 16px;
     line-height: 1.5;
   }
-  

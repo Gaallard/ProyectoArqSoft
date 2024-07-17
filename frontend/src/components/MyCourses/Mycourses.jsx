@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Mycurses.css';
 import Swal from 'sweetalert2';
 import { FaUserAlt } from 'react-icons/fa';
-import { RiAdminFill } from 'react-icons/ri';
+import { FaHome } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const MyCourses = () => {
@@ -14,7 +14,7 @@ const MyCourses = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (!token) {
-      navigate('/login');
+      navigate('/users');
     } else {
       cargarCursosInscritos(); // Cargar cursos inscritos si el usuario está autenticado
     }
@@ -49,16 +49,18 @@ const MyCourses = () => {
       <button type="button" className="boton-arriba-derecha">
         <FaUserAlt className="icon" />
       </button>
-      <Link to='/'>
+      <Link to='/courses'>
         <button type="button2" className="boton-arriba-derecha2">
-          <RiAdminFill className="icon" />
+          <FaHome className="icon" />
         </button>
       </Link>
       <ul className="grid">
         {cursosInscritos != null ? (
           cursosInscritos.map((curso) => (
             <li key={curso.id} className="card">
-              <h2>{curso.name}</h2>
+              <Link to={`/course/${curso.id}`}>
+                <h2>{curso.name}</h2>
+              </Link>
               <p>{curso.description}</p>
             </li>
           ))
