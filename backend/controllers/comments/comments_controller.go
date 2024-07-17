@@ -14,7 +14,7 @@ import (
 func CreateComment(context *gin.Context) {
 	var commentRequest dto.CommentDto
 	idUser, _ := middleware.GetUserIdByToken(context)
-    commentRequest.UserID = idUser
+	commentRequest.UserID = idUser
 	context.BindJSON(&commentRequest)
 
 	log.Info(commentRequest)
@@ -27,30 +27,30 @@ func CreateComment(context *gin.Context) {
 }
 
 func DeleteComment(context *gin.Context) {
-    idComment, err := strconv.Atoi(context.Param("idComment"))
+	idComment, err := strconv.Atoi(context.Param("idComment"))
 
-    if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid idComment"})
-        return
-    }
-    response := service.DeleteComment(idComment)
-    if response != nil {
-        context.JSON(response.Status(), response)
-        return
-    }
-    context.JSON(http.StatusOK, response)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid idComment"})
+		return
+	}
+	response := service.DeleteComment(idComment)
+	if response != nil {
+		context.JSON(response.Status(), response)
+		return
+	}
+	context.JSON(http.StatusOK, response)
 }
 
 func GetCommentsByCourse(context *gin.Context) {
-    idCourse, err := strconv.Atoi(context.Param("idCourse"))
-    if err != nil {
-        context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid idCourse"})
-        return
-    }
-    response, err2 := service.GetCommentsByCourse(idCourse)
-    if err != nil {
-        context.JSON(err2.Status(), err2)
-        return
-    }
-    context.JSON(http.StatusOK, response)
+	idCourse, err := strconv.Atoi(context.Param("idCourse"))
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid idCourse"})
+		return
+	}
+	response, err2 := service.GetCommentsByCourse(idCourse)
+	if err2 != nil {
+		context.JSON(err2.Status(), err2)
+		return
+	}
+	context.JSON(http.StatusOK, response)
 }

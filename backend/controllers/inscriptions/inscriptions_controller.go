@@ -10,8 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UserInscription is a function that allows to register a user in a course
-
 func UserInscription(context *gin.Context) {
 	var inscriptionRequest dtoInscription.InscriptionDto
 	idCourse, _ := strconv.Atoi(context.Param("idCourse"))
